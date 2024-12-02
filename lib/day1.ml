@@ -1,12 +1,6 @@
 open! Core
 
 module Day1Part1 = struct
-  let rec find_differences first second results =
-    match (first, second) with
-    | a :: first, b :: second ->
-        find_differences first second (abs (a - b) :: results)
-    | _ -> results
-
   let solve () =
     let lines = In_channel.read_lines "./inputs/day1part1.txt" in
     let lines =
@@ -24,7 +18,7 @@ module Day1Part1 = struct
     let first = List.sort ~compare:Int.compare first in
     let second = List.sort ~compare:Int.compare second in
     let result =
-      List.fold ~init:0 ~f:( + ) (find_differences first second [])
+      List.fold2_exn ~init:0 ~f:(fun acc a b -> acc + abs (a - b)) first second
     in
     printf "%d\n" result
 end
