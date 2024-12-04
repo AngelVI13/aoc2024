@@ -1,3 +1,5 @@
 (library
  (name aoc2024)
+ (preprocess 
+   (pps ppx_deriving.show))
  (libraries core re2))
