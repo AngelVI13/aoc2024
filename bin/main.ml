@@ -1,6 +1,7 @@
 open! Aoc2024.Day1
 open! Aoc2024.Day2
 open! Aoc2024.Day3
+open! Aoc2024.Day4
 
 let () =
   (*Day1Part1.solve ()*)
@@ -8,4 +9,5 @@ let () =
   (*Day2Part1.solve ()*)
   (*Day2Part2.solve ()*)
   (*Day3Part1.solve ()*)
-  Day3Part2.solve ()
+  (*Day3Part2.solve ()*)
+  Day4Part1.solve ()
