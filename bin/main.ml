@@ -10,4 +10,5 @@ let () =
   (*Day2Part2.solve ()*)
   (*Day3Part1.solve ()*)
   (*Day3Part2.solve ()*)
-  Day4Part1.solve ()
+  (*Day4Part1.solve ()*)
+  Day4Part2.solve ()
