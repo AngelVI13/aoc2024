@@ -97,39 +97,32 @@ module Day4Part2 = struct
     || i >= Array.length mat
     || j >= Array.length (Array.get mat 0)
 
-  let inc_fns =
-    [ [ inc_top_left; inc_bot_right ]; [ inc_top_right; inc_bot_left ] ]
+  let inc_fns = [ (inc_top_left, inc_bot_right); (inc_top_right, inc_bot_left) ]
 
-  let count_matches_diag mat i j dir_fn =
-    (*
-    let rec count mat i j dir_fn char_idx =
-      match char_idx = Array.length pattern with
-      | true -> 1
-      | false -> (
-          let new_i, new_j = dir_fn i j in
-          match (new_i, new_j) with
-          | x, y when out_of_range mat x y -> 0
-          | _ -> (
-              let exp_char = Array.get pattern char_idx in
-              let act_char = Array.get (Array.get mat new_i) new_j in
-              match exp_char = act_char with
-              | true -> count mat new_i new_j dir_fn (char_idx + 1)
-              | false -> 0))
-    in *)
-    (* NOTE: here we already know that X matches -> start from 1 *)
-    let _ = (mat, i, j, dir_fn) in
-    false
+  let value_from_mat mat i j fn =
+    let new_i, new_j = fn i j in
+    match (new_i, new_j) with
+    | x, y when out_of_range mat x y -> ' '
+    | _ -> Array.get (Array.get mat new_i) new_j
+
+  let count_matches_diag mat i j dir_fns =
+    let top_fn, bot_fn = dir_fns in
+    let values =
+      Array.sorted_copy ~compare:Char.compare
+        [| value_from_mat mat i j top_fn; value_from_mat mat i j bot_fn |]
+    in
+    values = pattern
 
   let count_matches mat i j =
     let left_diag, right_diag =
-      match inc_fns with l :: r -> (l, r) | [] -> failwith "no diag inc fns"
+      match inc_fns with [ l; r ] -> (l, r) | _ -> failwith "no diag inc fns"
     in
     let is_match_left = count_matches_diag mat i j left_diag in
     let is_match_right = count_matches_diag mat i j right_diag in
     if is_match_left && is_match_right then 1 else 0
 
   let solve () =
-    let lines = In_channel.read_lines "./inputs/day4part1.txt" in
+    let lines = In_channel.read_lines "./inputs/day4part2.txt" in
     let lines = Array.of_list lines in
     let mat = Array.map lines ~f:String.to_array in
 
